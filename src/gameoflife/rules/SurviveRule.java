@@ -1,6 +1,6 @@
 package gameoflife.rules;
 
-public class LiveRule implements IRule {
+public class SurviveRule implements IRule {
     @Override
     public int priority() {
         return 0;
