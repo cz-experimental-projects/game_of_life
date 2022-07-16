@@ -225,4 +225,8 @@ public class GameOfLife extends PApplet {
             addRule(new TextBirthRule(rules[1]));
         }
     }
+
+    public GameOfLifeConfig getConfig() {
+        return config;
+    }
 }

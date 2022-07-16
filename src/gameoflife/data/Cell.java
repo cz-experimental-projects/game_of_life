@@ -1,12 +1,11 @@
 package gameoflife.data;
 
+import gameoflife.GameOfLife;
 import processing.core.PApplet;
 
 import static gameoflife.GameOfLife.cellSize;
 
 public class Cell {
-    
-    
     private boolean alive;
     private boolean wasAlive;
     private boolean wasDead;
@@ -48,9 +47,9 @@ public class Cell {
         die();
     }
     
-    public void render(PApplet applet) {
+    public void render(GameOfLife applet) {
         if (wasDead) {
-            alpha += 0.01;
+            alpha += applet.getConfig().fadeSpeed();
             if (alpha >= 1) {
                 alpha = 1;
                 wasDead = false;
@@ -58,7 +57,7 @@ public class Cell {
         }
 
         if (wasAlive) {
-            alpha -= 0.01;
+            alpha -= applet.getConfig().fadeSpeed();
             if (alpha <= 0) {
                 alpha = 0;
                 wasAlive = false;

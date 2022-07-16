@@ -1,7 +1,6 @@
 {
-  "fadeSpeed": 0.2,
+  "fadeSpeed": 1,
   "rules": [
-    "4/4"
   ],
-  "removeDefaultRules": true
+  "removeDefaultRules": false
 }
