@@ -20,7 +20,8 @@ import java.util.List;
 import java.util.function.BiConsumer;
 
 public class GameOfLife extends PApplet {
-    public static final int cellSize = 40;
+    public static final int cellSize = 5;
+    public static File file;
 
     private List<IRule> rules;
     private Cell[][] grid;
@@ -33,7 +34,7 @@ public class GameOfLife extends PApplet {
     private boolean nextGen;
     private int elapsed;
     private int generation;
-    
+
     @Override
     public void setup() {
         rules = new ArrayList<>();
@@ -51,8 +52,10 @@ public class GameOfLife extends PApplet {
 
         paused = true;
         nextGen = false;
+
+        frameRate(240);
     }
-    
+
     @Override
     public void draw() {
         background(60);
@@ -60,7 +63,7 @@ public class GameOfLife extends PApplet {
         renderCells();
         renderHud();
 
-        if (nextGen || (!paused && elapsed % 10 == 0)) {
+        if (nextGen || (!paused && elapsed % config.delayBetweenUpdates() == 0)) {
             updateCells();
             generation++;
             nextGen = false;
@@ -96,7 +99,7 @@ public class GameOfLife extends PApplet {
             boolean alive = grid[i][j].isAlive();
             int aliveNeighbors = getAliveNeighborCount(i, j);
             boolean anyMatch = false;
-            
+
             for (IRule rule : rules) {
                 if (rule.match(alive, aliveNeighbors)) {
                     nextGeneration[i][j].setAlive(rule.canLive());
@@ -104,7 +107,7 @@ public class GameOfLife extends PApplet {
                     break;
                 }
             }
-            
+
             if (!anyMatch) {
                 nextGeneration[i][j].setAlive(false);
             }
@@ -122,7 +125,7 @@ public class GameOfLife extends PApplet {
     private void renderHud() {
         textSize(20);
         fill(255, 255, 255, 255);
-        
+
         if (paused) {
             text("Paused", 40, 40);
         }
@@ -193,33 +196,24 @@ public class GameOfLife extends PApplet {
         }
         return g;
     }
-    
+
     private void loadOrCreateConfig() {
         Gson gson = new GsonBuilder()
                 .disableHtmlEscaping()
                 .setPrettyPrinting()
                 .create();
-        
-        File file = new File("config.json");
-        
+
         try {
-            if (file.createNewFile()) {
-                config = new GameOfLifeConfig(0.05f, new String[0], false);
-                FileWriter fileWriter = new FileWriter(file.getPath());
-                fileWriter.write(gson.toJson(config));
-                fileWriter.close();
-            } else {
-                config = gson.fromJson(Files.readString(file.toPath()), GameOfLifeConfig.class);
-            }
+            config = gson.fromJson(Files.readString(file.toPath()), GameOfLifeConfig.class);
         } catch (IOException ignored) {
-            config = new GameOfLifeConfig(0.05f, new String[0], false);
+            config = new GameOfLifeConfig(0.05f, new String[0], false, 8);
         }
 
         if (config.removeDefaultRules()) {
             rules.clear();
         }
-        
-        for (String rule: config.rules()) {
+
+        for (String rule : config.rules()) {
             String[] rules = rule.split("/");
             addRule(new TextSurvivalRule(rules[0]));
             addRule(new TextBirthRule(rules[1]));

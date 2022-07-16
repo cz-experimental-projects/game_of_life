@@ -4,11 +4,13 @@ public final class GameOfLifeConfig {
     private final float fadeSpeed;
     private final String[] rules;
     private final boolean removeDefaultRules;
-
-    public GameOfLifeConfig(float fadeSpeed, String[] rules, boolean removeDefaultRules) {
+    private final int delayBetweenUpdates;
+    
+    public GameOfLifeConfig(float fadeSpeed, String[] rules, boolean removeDefaultRules, int delayBetweenUpdates) {
         this.fadeSpeed = fadeSpeed;
         this.rules = rules;
         this.removeDefaultRules = removeDefaultRules;
+        this.delayBetweenUpdates = delayBetweenUpdates;
     }
 
     public float fadeSpeed() {
@@ -21,5 +23,9 @@ public final class GameOfLifeConfig {
 
     public boolean removeDefaultRules() {
         return removeDefaultRules;
+    }
+
+    public int delayBetweenUpdates() {
+        return delayBetweenUpdates;
     }
 }
