@@ -1,7 +1,6 @@
 package gameoflife.data;
 
 import gameoflife.GameOfLife;
-import processing.core.PApplet;
 
 import static gameoflife.GameOfLife.cellSize;
 
@@ -66,7 +65,7 @@ public class Cell {
         }
         
         if (isAlive()) {
-            applet.fill(255, 255, 255, 255 * alpha);
+            applet.fill(10, 150, 10, 255 * alpha);
             applet.stroke(100);
             applet.rect(x * cellSize, y * cellSize, cellSize - 1, cellSize - 1);
         }

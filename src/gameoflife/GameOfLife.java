@@ -12,7 +12,6 @@ import processing.core.PApplet;
 import processing.event.KeyEvent;
 
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.ArrayList;
@@ -20,7 +19,7 @@ import java.util.List;
 import java.util.function.BiConsumer;
 
 public class GameOfLife extends PApplet {
-    public static final int cellSize = 5;
+    public static final int cellSize = 20;
     public static File file;
 
     private List<IRule> rules;
@@ -42,7 +41,7 @@ public class GameOfLife extends PApplet {
         addRule(new OverPopulationRule());
         addRule(new SurviveRule());
         addRule(new ReproductionRule());
-
+        
         loadOrCreateConfig();
 
         surface.setSize(1200, 800);
@@ -52,13 +51,13 @@ public class GameOfLife extends PApplet {
 
         paused = true;
         nextGen = false;
-
+        
         frameRate(240);
     }
 
     @Override
     public void draw() {
-        background(60);
+        background(20);
 
         renderCells();
         renderHud();
